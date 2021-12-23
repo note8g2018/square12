@@ -1,41 +1,23 @@
-const express       = require('express')
-const session       = require('express-session')
-const MongoDBStore  = require('connect-mongodb-session')(session)
-const mongoose      = require('mongoose')
+if(process.env.NODE_ENV !== 'production')
+{
+  require('dotenv').config({path: '.env'});
+}
 
-const UserModel     = require('./models/User')
+const express       = require('express');
+const start         = require('./routes/AllRoutes');
+const connectDB     = require('./config/db');
 
-const MongoURI = 'mongodb://admin:159357654@192.168.43.6:27017/admin'
+const PORT = process.env.PORT || 5000;
 
-const app = express()
-mongoose.connect(MongoURI, {   
-        useNewUrlParser: true,
-        //useCreateIndex: true,
-        useUnifiedTopology: true,
-    }).then((res)=>{
-    console.log('MongoDB is connected to admin')
-})
+const app = express();
+connectDB();
 
-const store = new MongoDBStore({
-    uri: MongoURI,
-    databaseName: 'compose',
-    collection: 'mySessions'
-  });
+start(app);
 
-app.use(session({
-    secret: 'fuck microsoft',
-    resave: false,
-    saveUninitialized: false,
-    store: store,
-    //cookie:{secure: true}
-}))
+const server = app.listen(PORT,
+    console.log(`The server is running on Port ${PORT} at http://localhost:${PORT}`));
 
-
-
-app.get('/', (req, res)=>{
-    req.session.isAuth = true
-    console.log(req.session)
-    res.send('<h1>Hello me 1</h1>')
-})
-
-app.listen(5000, console.log('The server is running on Port 5000 at http://localhost:5000'))
+process.on('unhandledRejection', (err) => {
+    console.log(`Logged Error: ${err}`);
+    server.close(()=> process.exit(1));
+});
