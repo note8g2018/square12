@@ -28,6 +28,7 @@ const protect = async (req, res, next) =>{
     } 
     catch (error) 
     {
+        
         const message = "Not authorized to access this route";
         return next(new ErrorResponse({message: message, statusCode: 401}));
     }

@@ -1,11 +1,8 @@
 const mongoose      = require('mongoose');
 const bcrypt        = require('bcrypt');
 const jwt           = require('jsonwebtoken');
-const crypto        = require('crypto');
-
-//const composeDB = require('../config/db');
-
-//const Schema = mongoose.Schema;
+const crypto = require('crypto');
+const process = require('process');
 
 const UserSchema = new mongoose.Schema({
     username:{
@@ -30,18 +27,35 @@ const UserSchema = new mongoose.Schema({
         minlength: 8,
         select: false,
     },
-    resetPasswordToken: String,
-    resetPasswordExpire: Date,
-});
+    idNumber:{
+        type: Number,
+    },
+    ip:{
+        type: String,
+    },
+    isLogin:{
+        type: Boolean,
+    },
+    lastTimeLoginUTC:{
+        type: Date,
+    },
+    resetPasswordToken:{type: String,},
+    resetPasswordExpire: {type: Date,},
+},
+{
+    timestamps: true,
+    validateBeforeSave: true,
+}
+);
 
 UserSchema.pre('save', async function(next){
     if(!this.isModified('password'))
     {
-        next();
+        return next();
     }
-    const salt = await bcrypt.genSalt(10);
-    this.password = await bcrypt.hash(this.password, salt);
-    next();
+    //const salt = await bcrypt.genSalt(14);
+    this.password = await bcrypt.hash(this.password, 14);
+    return next();
 });
 
 UserSchema.methods.matchPassword = async function(password)

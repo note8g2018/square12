@@ -14,7 +14,7 @@ const login = async (req, res, next)=>
     try 
     {
         const user = await User.findOne({username}).select("+password");
-        console.log(user);
+        //console.log(user);
         if(!user)
         {
             const message = "The username or password or both are not correct";
@@ -26,6 +26,8 @@ const login = async (req, res, next)=>
             const message = "The username or password or both are not correct";
             return next(new ErrorResponse({message:message, statusCode:401})); 
         }
+        user.isLogin = true;
+        await user.save();
         return sendToken({user: user, statusCode: 201, res: res});
     } 
     catch (error) 
