@@ -29,9 +29,13 @@ const UserSchema = new mongoose.Schema({
     },
     idNumber:{
         type: Number,
+        indexes: true,
     },
     ip:{
         type: String,
+    },
+    disabled: {
+        type: Boolean,
     },
     isLogin:{
         type: Boolean,
@@ -39,8 +43,8 @@ const UserSchema = new mongoose.Schema({
     lastTimeLoginUTC:{
         type: Date,
     },
-    resetPasswordToken:{type: String,},
-    resetPasswordExpire: {type: Date,},
+    tempPassword:{type: String, trim: true, select: false},
+    tempPasswordExpire: {type: Date, select: false},
 },
 {
     timestamps: true,
@@ -48,15 +52,15 @@ const UserSchema = new mongoose.Schema({
 }
 );
 
-UserSchema.pre('save', async function(next){
-    if(!this.isModified('password'))
-    {
-        return next();
-    }
-    //const salt = await bcrypt.genSalt(14);
-    this.password = await bcrypt.hash(this.password, 14);
-    return next();
-});
+// UserSchema.pre('save', async function(next){
+//     if(!this.isModified('password'))
+//     {
+//         return next();
+//     }
+//     //const salt = await bcrypt.genSalt(14);
+//     this.password = await bcrypt.hash(this.password, 14);
+//     return next();
+// });
 
 UserSchema.methods.matchPassword = async function(password)
 {

@@ -1,11 +1,10 @@
 class ErrorResponse extends Error
 {
-    constructor({ message, statusCode = 400, result = false, success=false}={})
+    constructor({ message, statusCode = 400, error = true}={})
     {
         super(message);
         this.statusCode = statusCode;
-        this.result = result;
-        this.success = success;
+        this.error = error;
     }
 }
 

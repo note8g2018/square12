@@ -15,10 +15,5 @@ const InfoSchema = new mongoose.Schema({
 }
 );
 
-// InfoSchema.pre('save', async function(next){
-//     this.idNumberUser = ++this.idNumberUser;
-//     return next();
-// });
-
 const Info = mongoose.model('Info', InfoSchema);
 module.exports = Info;

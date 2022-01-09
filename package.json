@@ -1,7 +1,7 @@
 {
   "name": "square12",
   "version": "1.0.0",
-  "description": "This is the server side of compose sqare17 Kotlin",
+  "description": "This is the server side of compose square17 Kotlin",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

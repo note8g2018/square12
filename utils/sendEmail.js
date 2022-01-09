@@ -1,4 +1,5 @@
 const nodemailer = require('nodemailer');
+const process = require('process');
 
 const sendEmail = (options)=>{
     const transporter = nodemailer.createTransport({
@@ -25,6 +26,5 @@ const sendEmail = (options)=>{
         }
     });
 };
-
 
 module.exports = sendEmail;

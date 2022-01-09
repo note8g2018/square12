@@ -1,6 +1,6 @@
+const bcrypt = require('bcrypt');
 const User = require('../models/User');
 const Info = require('../models/Info');
-const sendToken = require('../utils/jwtToken');
 const ErrorResponse = require('../utils/errorResponse');
 const validator = require('../utils/validator');
 
@@ -15,10 +15,11 @@ const register = async (req, res, next) =>
     const isValid = validator.validateAll(username, email, password);
     if (!isValid)
     {
-        const message = "Please provide a valid information";
+        const message = "Your username or password is not valid";
         return next(new ErrorResponse({ message: message, statusCode: 401 }));
     }
     const duplicate = await User.findOne({ username: username }).exec();
+    //console.log(duplicate);
     if (duplicate)
     {
         const message = "This username is taken, sorry!!";
@@ -34,16 +35,17 @@ const register = async (req, res, next) =>
 
     try 
     {
+        const hashedPassword = await bcrypt.hash(password, 14);
         // create and store new user
-        const user = await User.create({
+        await User.create({
             username: username,
             email: email,
-            password: password,
+            password: hashedPassword,
             idNumber: idNumber,
             ip: req.ip,
         });
         await info.save();
-        return sendToken({ user: user, statusCode: 200, res: res });
+        res.redirect('/login');
     }
     catch (error) 
     {
