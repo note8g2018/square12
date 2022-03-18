@@ -56,7 +56,7 @@ const login = async (req, res, next)=>
             error: false,
             statusCode: 200,
             token: token,
-            user: user,
+            data: user,
         });
     } 
     catch (error) 

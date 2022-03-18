@@ -19,7 +19,7 @@ const errorHandler = (err, req, res, next) =>{
     return res.status(error.statusCode || 500).json({
         error: true,
         statusCode: error.statusCode || 500,
-        message: error.message || "Server Error"
+        errorMessage: error.message || "Server Error"
     });
 }
 

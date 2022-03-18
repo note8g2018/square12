@@ -45,6 +45,7 @@ const register = async (req, res, next) =>
             ip: req.ip,
         });
         await info.save();
+        //req.redirect('/login');
         res.redirect('/login');
     }
     catch (error) 
