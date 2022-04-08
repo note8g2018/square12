@@ -32,8 +32,10 @@ const logout = async (req, res, next) =>
         return res.status(200).json({
             error: false,
             statusCode: 200,
-            result: "Please Delete Token in Client Side",
-            shouldDeleteToken: true,
+            // result: "Please Delete Token in Client Side",
+            // shouldDeleteToken: true,
+            token: null,
+            data: user,
         });
     }
     catch (error) 
