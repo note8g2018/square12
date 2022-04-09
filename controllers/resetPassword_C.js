@@ -50,6 +50,8 @@ const resetPassword = async (req, res, next)=>
             error: false,
             statusCode: 200,
             result: "Password Reset success",
+            token: null,
+            data: null,
         });
     } 
     catch (error) 

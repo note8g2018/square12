@@ -39,6 +39,8 @@ const forgotPassword = async (req, res, next)=>
             return res.status(200).json({
                 error: false,
                 statusCode: 200,
+                token: null,
+                data: null,
                 result: "Email sent",
             });     
         }
